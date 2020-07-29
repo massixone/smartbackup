@@ -357,7 +357,7 @@ SDBU_ROTATE_LOGS=12
 ```
 
 ### SDBU_EMAIL_NAME
-This is a string to be used as "From" name, when sendine emails
+This is a string to be used as "From" name, when sending emails
 
 #### Default: "Xatlas Backup"
 

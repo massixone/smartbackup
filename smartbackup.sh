@@ -209,14 +209,15 @@ function sdbu_send_email () {
         Email Subject   '${TMP_ESUBJ}'
         Attach files    '${TMP_CMDA}'
         "
-    cat ${TMP_FBODY} | mail -s "${TMP_ESUBJ}" ${TMP_CMDA} "${TMP_RCPT}"
+    #cat ${TMP_FBODY} | /bin/mail -s "${TMP_ESUBJ}" ${TMP_CMDA} "${TMP_RCPT}"
+    /bin/mail -s "${TMP_ESUBJ}" ${TMP_CMDA} "${TMP_RCPT}" < ${TMP_FBODY}
     RC=$?
     if [ ${RC} -ne 0 ]; then
         do_echo "${FUNCNAME}() Error! Email was not sent due to error [${RC}]"
         return 1   #exit -1
     fi
     do_echo "${FUNCNAME}() Email was sent successfully"
-    do_echo "${FUNCNAME}() Please chock out the email queue."
+    do_echo "${FUNCNAME}() Please check out the email queue."
 }
 
 # function rotate_file()
@@ -506,7 +507,9 @@ SDBU_ROTATE_BACKUPS=${SDBU_ROTATE_BACKUPS:=8}
 SDBU_ROTATE_LOGS=${SDBU_ROTATE_LOGS:=9}
 SDBU_EMAIL_NAME=${SDBU_EMAIL_NAME:-"Xatlas Backup"}
 SDBU_EMAIL_TO=${SDBU_EMAIL_TO:-"user@example.com"}
-SDBU_EMAIL_SUBJECT="Smart Babckup Utility"
+#SDBU_EMAIL_SUBJECT="Smart Babckup Utility"
+SDBU_EMAIL_SUBJECT=${SDBU_EMAIL_SUBJECT:-"Smart Babckup Utility"}
+
 # Other program defaults, beyond the config file
 #SDBU_PIDFILE="./${APP_NAME}.pid"                            	# The pid file
 SDBU_PIDFILE="/tmp/${APP_NAME}.pid"                            	# The pid file
@@ -570,6 +573,7 @@ if [ ${RC} -ne 0 ];then        # && do_exit
     SDBU_G_ERROR=$((${SDBU_G_ERROR} | ${SDBU_C_ERROR_BACKUP}))
     #exit -1 #do_exit
 fi
+do_echo "${FUNCNAME}() [Log] Global error so far: ${SDBU_G_ERROR}"
 #
 # Compress Backup file if required
 if [ ${SDBU_COMPRESS} == 'Y' ] || [ ${SDBU_COMPRESS} == 'Y' ] && [ ${SDBU_G_ERROR} -eq 0 ];then
@@ -583,6 +587,7 @@ if [ ${SDBU_COMPRESS} == 'Y' ] || [ ${SDBU_COMPRESS} == 'Y' ] && [ ${SDBU_G_ERRO
     fi
     sdbu_TRANF_FILE=${sdbu_BACKUP_FILE_NAME}
 fi
+do_echo "${FUNCNAME}() [Log] Global error so far: ${SDBU_G_ERROR}"
 
 #
 # Transfer backup file if required
@@ -596,33 +601,35 @@ if [ ${SDBU_TRANSFER} = 'Y' ] || [ ${SDBU_TRANSFER} = 'y' ] && [ ${SDBU_G_ERROR}
         SDBU_G_ERROR=$((${SDBU_G_ERROR} | ${SDBU_C_ERROR_TRASFR}))
     fi
 fi
+do_echo "${FUNCNAME}() [Log] Global error so far: ${SDBU_G_ERROR}"
 
 #
 # Send the email
-if [ ${SDBU_G_ERROR} -eq 0 ]; then
+#if [ ${SDBU_G_ERROR} -eq 0 ]; then
+if [ ${SDBU_G_ERROR} -ne 0 ]; then
     do_echo "Send-Email flag is set to: [${SDBU_SEND_EMAIL}]."
     case ${SDBU_SEND_EMAIL} in
         'ALL'|'all')
             do_echo "Sending email for condition: '${SDBU_SEND_EMAIL}'."
-            sdbu_send_email "${SDBU_EMAIL_TO}" "${SDBU_LOGFILE}" "${SDBU_EMAIL_SUBJECT}" 
+            sdbu_send_email "${SDBU_EMAIL_TO}" "${SDBU_LOGFILE}" "${SDBU_EMAIL_SUBJECT} Info." 
             ;;
         'ERROR'|'error')
-            if [ ${sbdu_ERROR} -gt 0 ];then
-                do_echo "Sending email for condition: '${SDBU_SEND_EMAIL}' and Error level is: '${sbdu_ERROR}'."
-                sdbu_send_email "${SDBU_EMAIL_TO}" "${SDBU_LOGFILE}" "Error! ${SDBU_EMAIL_SUBJECT}" 
+            if [ ${SDBU_G_ERROR} -gt 0 ];then
+                do_echo "Sending email for condition: '${SDBU_SEND_EMAIL}' and Error level is: '${SDBU_G_ERROR}'."
+                sdbu_send_email "${SDBU_EMAIL_TO}" "${SDBU_LOGFILE}" "${SDBU_EMAIL_SUBJECT} Error!" 
             fi
             ;;
         'SUCCESS'|'success')
-            if [ ${sbdu_ERROR} -eq 0 ];then
-                do_echo "Sending email for condition: '${SDBU_SEND_EMAIL}' and Error level is: '${sbdu_ERROR}'."
-                sdbu_send_email "${SDBU_EMAIL_TO}" "${SDBU_LOGFILE}" "Success! ${SDBU_EMAIL_SUBJECT}" 
+            if [ ${SDBU_G_ERROR} -eq 0 ];then
+                do_echo "Sending email for condition: '${SDBU_SEND_EMAIL}' and Error level is: '${SDBU_G_ERROR}'."
+                sdbu_send_email "${SDBU_EMAIL_TO}" "${SDBU_LOGFILE}" "${SDBU_EMAIL_SUBJECT} Success!" 
             fi
             ;;
         'NEVER'|'never')
             do_echo "Skipping email."
     esac
 else
-	do_echo "ERROR! Not sending email due to previous error."
+	do_echo "ERROR! Not sending email due NO ERROR."
 fi
 
 do_echo "Program completed"
