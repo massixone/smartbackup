@@ -41,12 +41,13 @@ The following prerequisites are needed when running SmartBackup.
 
  * **bash** version 3.0 or greater
  * **ftp** (client) version 0.17 or greater
- * **basename** (Typically installed by default on most Linux distributions)
- * **dirname** (Typically installed by default on most Linux distributions)
+ * ~~basename (Typically installed by default on most Linux distributions)~~
+ * ~~dirname (Typically installed by default on most Linux distributions)~~
  * **mysqldump** for MariaDB and MySQL (Typically part of database server installation)
  * **pg_dump** for PostgreSQL (Typically part of database server installation)
  * **gzip** for file compression
  * **zip, unzip** for file compression
+ * **Sendmail** or **Postfix** for mail sending
  
 **Note:**
 From version 0.1.0 commands **basename** and **dirname** are replaced with a Bash workaround, so are no longer needed as prerequisites.
@@ -58,8 +59,15 @@ From version 0.1.0 commands **basename** and **dirname** are replaced with a Bas
  2. Extract in a destination directory (suggested: /usr/local/smartbackup)
  3. Copy the file smartbackup-sample.conf to smartbackup.conf (the default configuration file)
  4. Modify the default configuration file and/or create a new one
+ 
+### File permissions
 
-## First execution
+In order to be executed as any use (other rhan 'root'), there are some issues you must be aware of.
+
+ * For security reasons the tool should be ran by a user other than 'root'
+ * The destination backup folder must created prior the first run and must be writible by the user
+
+### First execution
 
  1. Move to the folder where the package is located
  2. Execute smartbackup.sh and examine the log to verify whether output is as expected.
@@ -67,7 +75,7 @@ From version 0.1.0 commands **basename** and **dirname** are replaced with a Bas
 The tool invocation can be put under the control of system **cron** by adding the a line simila to the one that  follows as exaple.
 
 ```
-0 3 * * * /usr/local/smartbackup/smartbackup.sh > /dev/null 2>&1
+0 3 * * * /usr/local/smartbackup/smartbackup.sh -c TEST > /dev/null 2>&1
 ```
 
 ## Authentication
@@ -96,13 +104,13 @@ smartbackup.sh [-h | --help][-c config_name] [-q | -i]
 
 **-c NAME**		Configuration name. The tool is executed with configuration file named 'NAME', so that a configuration file with name **smartbackup_NAME.conf** must exist in the application root directory. No defaut value for ```NAME``` so that the standard configuratio file **smartbackup.conf** is loaded by default.
 
-**-i**					Interactive (default). The tool will show all log information while running. (Does not affect log file, which is created and populated anyway)
+**-i**					Interactive (default). The tool will show all runtime log information.  This does not affect log file, which is created and populated anyway.
 
 **-q**					Quiet. Log information are not shown on the screen (Does not affect log file, which is created and populated anyway)
 
 
 ### Multiple configuration file
 
-Since the tool is intended to run in a system where there can be a number of databases of different nature (please see 'Features' above), sysadmin can create different configuration files in the app root directory, for any of the database to put under the control of SmartBackup. All those files cane be named **smartbackup_NAME.conf**, where `NAME` is a string identifying different specific configuration name to read for different instances of the tool.. 
+Since the tool is intended to run in a system where there can be a number of databases of different nature (please see 'Features' above), sysadmin can create different configuration files in the app root directory, for any of the database to put under the control of SmartBackup. All those files cane be named **smartbackup_NAME.conf**, where `NAME` is a string identifying different specific configuration name to read for different instances of the tool.
 
-If no configuration name is specified in the command line the default one (i.e. **smartbackup.conf**)is read and applied.
+If no configuration name is specified in the command line the default one (i.e. **smartbackup.conf**) is read and applied.
