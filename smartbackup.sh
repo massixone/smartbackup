@@ -508,9 +508,11 @@ SDBU_EMAIL_NAME=${SDBU_EMAIL_NAME:-"Xatlas Backup"}
 SDBU_EMAIL_TO=${SDBU_EMAIL_TO:-"user@example.com"}
 SDBU_EMAIL_SUBJECT="Smart Babckup Utility"
 # Other program defaults, beyond the config file
-SDBU_PIDFILE="./${APP_NAME}.pid"                            # The pid file
-SDBU_TRANF_TRC_FILE="./${APP_NAME}.trc"                     # The trace file contining file transfer trace
-SDBU_LOGFILE=${SDBU_BACKUP_FOLDER_DST}/${APP_NAME}.log      # The rogram log file
+#SDBU_PIDFILE="./${APP_NAME}.pid"                            	# The pid file
+SDBU_PIDFILE="/tmp/${APP_NAME}.pid"                            	# The pid file
+#SDBU_TRANF_TRC_FILE="./${APP_NAME}.trc"                     	# The trace file containing file transfer trace
+SDBU_TRANF_TRC_FILE="${SDBU_BACKUP_FOLDER_DST}/${APP_NAME}.trc" # The trace file contining file transfer trace
+SDBU_LOGFILE=${SDBU_BACKUP_FOLDER_DST}/${APP_NAME}.log      	# The rogram log file
 
 # remember this instance is running!
 do_create_pid_file ${SDBU_PIDFILE}
