@@ -40,12 +40,17 @@ Once adjusted the configuration file to the specific needs, Smart Backup Utility
 The following prerequisites are needed when running SmartBackup.
 
  * **bash** version 3.0 or greater
- * **ftp** (client) version
+ * **ftp** (client) version 0.17 or greater
  * **basename** (Typically installed by default on most Linux distributions)
  * **dirname** (Typically installed by default on most Linux distributions)
  * **mysqldump** for MariaDB and MySQL (Typically part of database server installation)
  * **pg_dump** for PostgreSQL (Typically part of database server installation)
  * **gzip** for file compression
+ * **zip, unzip** for file compression
+ 
+**Note:**
+From version 0.1.0 commands **basename** and **dirname** are replaced with a Bash workaround, so are no longer needed as prerequisites.
+
 
 ## Package install
 
