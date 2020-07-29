@@ -378,8 +378,8 @@ EOF
             do_echo "${FUNCNAME}() File transfer program [${SDBU_TRANF_PROT}] terminated successfully [${RC}]"
         else
             do_echo "${FUNCNAME}() Error! File transfer program [${SDBU_TRANF_PROT}]terminated with error [${RC}]"
-            return ${RC}    #exit ${RC}      #exit -1
         fi
+        return ${RC}    # Return the error
     fi
 }
 
@@ -619,6 +619,8 @@ if [ ${SDBU_G_ERROR} -eq 0 ]; then
         'NEVER'|'never')
             do_echo "Skipping email."
     esac
+else
+	do_echo "ERROR! Not sending email due to previous error."
 fi
 
 do_echo "Program completed"
