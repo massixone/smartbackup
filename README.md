@@ -65,7 +65,7 @@ From version 0.1.0 commands **basename** and **dirname** are replaced with a Bas
 In order to be executed as any use (other rhan 'root'), there are some issues you must be aware of.
 
  * For security reasons the tool should be ran by a user other than 'root'
- * The destination backup folder must created prior the first run and must be writible by the user
+ * The destination backup folder (`SDBU_BACKUP_FOLDER_DST`) must created prior the first run and must be writible by the user
 
 ### First execution
 
@@ -114,3 +114,277 @@ smartbackup.sh [-h | --help][-c config_name] [-q | -i]
 Since the tool is intended to run in a system where there can be a number of databases of different nature (please see 'Features' above), sysadmin can create different configuration files in the app root directory, for any of the database to put under the control of SmartBackup. All those files cane be named **smartbackup_NAME.conf**, where `NAME` is a string identifying different specific configuration name to read for different instances of the tool.
 
 If no configuration name is specified in the command line the default one (i.e. **smartbackup.conf**) is read and applied.
+
+## Configuration Parameters
+
+The following section describes all the configuration parameters that can be customized in the application configuration file
+
+### SDBU_BACKUP_FOLDER_DST
+This is the destination backup folder (i.e. where the backup file is finally stored).
+Indicate the relative path of the folder
+
+#### Default value: BackupFiles
+
+#### Example:
+SDBU_BACKUP_FOLDER_DST=BackupFiles
+
+### SDBU_BACKUP_FILE_NAME
+A string to be used as a template for the database backup file.
+It is recommended that the filename terminates with the suffix '.sql'.
+
+#### Default value: "SDBU-$(hostname)-${SDBU_DB_NAME}_$(date +%u).sql"
+
+#### Example:
+
+```
+SDBU_BACKUP_FILE_NAME=XatlasDatabase_$(hostname)_$(date +%u).sql
+```
+
+### SDBU_SEND_EMAIL
+An integer specifying when email has to be sent carrying the completion backup status.
+Allowed vaues are:
+
+ * **ALL**		Send an email for each condition
+ * **ERROR**		Send an email on error condition only
+ * **SUCCESS**	Send an email on successful condition only
+ * **NONE**  	Never send out email
+
+#### Default value: ALL
+
+#### Example:
+
+```
+SDBU_SEND_EMAIL=ALL
+```
+
+### SDBU_COMPRESS
+ This is a flag indicathing if the final backup has to be compressed before transfer
+
+#### Allowed values are:
+
+ * **'Y'** | **'y'** 	Compress the backup file
+ * **'N'** | **'n'** 	Do NOT compress the backup file
+
+### Default value: Y
+
+#### Example:
+
+```
+SDBU_COMPRESS=Y
+```
+
+### SDBU_DB_TYPE
+This is a string indicating the database type
+
+#### Allowed values are:
+
+ * '**postgresql**'  For Postgresql database
+ * '**mysql**'       For Mysql database
+ * '**mariadb**'     For Maria database
+
+#### Default value:    "postgresql"
+
+#### Example:
+
+```
+SDBU_DB_TYPE="postgresql"
+```
+
+### SDBU_BD_USER
+This is a string indicating the Database username
+
+#### Default value: dbuser
+
+#### Example:
+
+```
+SDBU_BD_USER="axsuser"
+
+```
+
+### SDBU_DB_PASS
+This is a string indicating the Database password
+
+#### Default value: "dbpass"
+
+#### Example:
+
+```
+SDBU_DB_PASS=""
+```
+
+### SDBU_DB_HOST
+This is a string indicating the Database host. Indicate the host name either as IP Address or FQDN
+
+#### Default value: localhost
+
+#### Example:
+
+```
+SDBU_DB_HOST="bckserver.domain.com"
+```
+
+### SDBU_DB_PORT
+This is a string indicating the Database TCP/IP port where it is listening
+
+#### Default value: 5432
+
+#### Example:
+
+```
+SDBU_DB_PORT="5432"
+```
+
+### SDBU_DB_NAME
+This is a string indicating the Database name
+
+#### Default value: "dbname"
+
+#### Example:
+
+```
+SDBU_DB_NAME="AXS_DB"
+```
+
+### SDBU_TRANSFER
+This is a flag inficating if the file has to be transferred upon successful completion
+
+#### Allowed values are:
+
+ * **'Y'** | **'y'** 	Compress the backup file
+ * **'N'** | **'n'** 	Do NOT compress the backup file
+
+#### Default value: "Y"
+
+#### Example:
+
+```
+SDBU_TRANSFER=Y
+```
+
+### SDBU_TRANF_PROT
+This is a string indicating the transfer protocol
+
+#### Allowed values are:
+
+ * **FTP**			Use FTP Protocol
+ * **SCP**			Use SCP Protocol
+
+#### Default value: "FTP"
+
+#### Example:
+
+```
+SDBU_TRANF_PROT="FTP"
+```
+
+### SDBU_TRANF_USER
+This is a string indicating the username to be used for SDBU_TRANF_PROT connection
+
+#### Default value: "ftp-user"
+
+#### Example:
+
+```
+SDBU_TRANF_USER="my-user"
+```
+
+### SDBU_TRANF_PASS
+This is a string indicating the password to be used for SDBU_TRANF_PROT connection
+
+#### Default value: "Change-me"
+
+#### Example:
+
+```
+SDBU_TRANF_PASS="my-password"
+```
+
+### SDBU_TRANF_HOST
+This is a string indicating the destination host to be used for SDBU_TRANF_PROT connection. Indicate the host name either as IP Address or FQDN
+
+#### Default value: "mail.infra.lan"
+
+#### Example:
+
+```
+SDBU_TRANF_HOST="mail.infra.lan"
+```
+
+### SDBU_TRANF_FOLDER
+This is a string indicating the absolute path of the destination folder on the remote host
+
+#### Default value: "."
+
+#### Example:
+
+```
+SDBU_TRANF_FOLDER="/home/operator/ftptest"
+```
+
+### SDBU_TRANF_EXTRA
+This is a string indicating extra arguments to be used for SDBU_TRANF_PROT connection. Indicate the host name either as IP Address or FQDN.
+
+#### Default value: "" (empty)
+
+#### Example:
+
+```
+SDBU_TRANF_EXTRA=""
+
+```
+
+### SDBU_ROTATE_BACKUPS
+This is an integer indicating how many copies of Baclup files must be kept when rotating. If the value is set to 0 (zero) no rotatiion is applied.
+
+#### Default value: 7
+
+#### Example:
+
+```
+SDBU_ROTATE_BACKUPS=6
+```
+
+### SDBU_ROTATE_LOGS
+This is an integer indicating how many copies of Log files must be kept when rotating. If the value is set to 0 (zero) no rotatiion is applied.
+
+#### Default value: 7
+
+#### Example:
+
+```
+SDBU_ROTATE_LOGS=12
+```
+
+### SDBU_EMAIL_NAME
+This is a string to be used as "From" name, when sendine emails
+
+#### Default: "Xatlas Backup"
+
+#### Example:
+
+```
+SDBU_EMAIL_NAME="Smart Database Backup Utility"
+```
+
+### SDBU_EMAIL_TO
+This is a string indicating the email receipient, when sending emails
+
+#### Default: "user@example.com"
+
+#### Example:
+
+```
+SDBU_EMAIL_TO="operator@mail.infra.lan"
+```
+
+### SDBU_EMAIL_SUBJECT
+This is the customized email subject when sending the email
+
+#### Default: "Smart Babckup Utility"
+
+#### Example:
+
+```
+SDBU_EMAIL_SUBJECT="Smart Backup for CMDBuild_30"
+```
