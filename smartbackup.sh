@@ -32,7 +32,7 @@
 #   P R E A M B L E
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-declare SDBU_VERSION="1.0.2"
+declare SDBU_VERSION="1.0.3"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   C O N F I G
@@ -272,6 +272,8 @@ function do_db_backup () {
         Log file is:         '${TMP_FILE_LOG}'."
     case ${SDBU_DB_TYPE} in
         'postgresql')
+            # Remember that password for postgresql DB can be provided bu ~/.pgpass and may depend on 
+            # postgresql configuration file: /var/lib/pgsql/data/pg_hba.conf
             do_echo "${FUNCNAME}() Launching PostgreSQL backup via command: 'pg_dump'..."
             echo ${SDBU_DB_PASS} | \
             do_echo "DB Dump as: pg_dump -h ${SDBU_DB_HOST} -U ${SDBU_BD_USER} -p ${SDBU_DB_PORT} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}"
