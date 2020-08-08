@@ -67,10 +67,10 @@ In order to be executed as any use (other rhan 'root'), there are some issues yo
  * For security reasons the tool should be ran by a user other than 'root'
  * The destination backup folder (`SDBU_BACKUP_FOLDER_DST`) must created prior the first run and must be writible by the user
 
-### First execution
+### Execution
 
  1. Move to the folder where the package is located
- 2. Execute smartbackup.sh and examine the log to verify whether output is as expected.
+ 2. Execute `smartbackup.sh` and examine the log to verify whether output is as expected.
 
 The tool invocation can be put under the control of system **cron** by adding the a line similar to the one that  follows as example.
 
@@ -100,7 +100,7 @@ Scp/ssh authentication is based upon ssh public key which should be generated lo
 SYNOPSIS
 
 ```
-smartbackup.sh [-h | --help][-c config_name] [-q | -i]
+smartbackup.sh [-h | --help][-c config_name] [-q | -i] [-V]
 ```
 ### ARGUMENTS
 
@@ -111,6 +111,8 @@ smartbackup.sh [-h | --help][-c config_name] [-q | -i]
 **-i**					Interactive (default). The tool will show all runtime log information.  This does not affect log file, which is created and populated anyway.
 
 **-q**					Quiet. Log information are not shown on the screen (Does not affect log file, which is created and populated anyway)
+
+**-V**					Show application version and exit immediately.
 
 
 ### Multiple configuration file
