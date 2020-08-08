@@ -114,6 +114,8 @@ function do_create_pid_file () {
 # @ No arguments
 function do_usage () {
     
+    #do_echo "${APP_NAME} - Version:  ${SDBU_APP_VERSION}"
+    #show_version
     echo -en "\n***** $(basename $0)  - Version:  ${SDBU_APP_VERSION}
         usage:.\n
         -h | --help         show this message
