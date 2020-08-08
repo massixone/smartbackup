@@ -279,11 +279,11 @@ function do_db_backup () {
             ;;
         'mysql')
             do_echo "${FUNCNAME}() Launching MySQL backup via command: 'mysqldump'..."
-            /usr/bin/mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_TYPE} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
+            /usr/bin/mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_PASS} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
             ;;
         'mariadb')
             do_echo "${FUNCNAME}() Launching MariaDB backup via command: 'mysqldump'..."
-            /usr/bin/mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_TYPE} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
+            /usr/bin/mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_PASS} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
             ;;
     esac
     RC=$?
