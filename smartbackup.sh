@@ -438,7 +438,7 @@ function show_version () {
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-# INITIALIZATION
+# BOOT UP
 # .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
 # 
 # Determine correct path names, app directory etc.
@@ -454,6 +454,9 @@ cd ${APP_FOLD}  # [ ${APP_FOLD} <> "." ] && cd ${APP_FOLD}
 sdbu_INTERACTIVE=${sdbu_INTERACTIVE:-0}     # Assume non/interative by default
 #sdbu_CONFIG_FILE=${sdbu_CONFIG_FILE:-'smartbackupdb.conf'}
 
+# .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+# COMMAND LINE PARSIN
+# .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
 #
 # Read command line arguments
 while [ $# -gt 0 ];do
@@ -496,6 +499,9 @@ else
     kill $$
 fi
 
+# .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+# INITIALIZATION
+# .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
 #
 # Initialize configuration parameter to their default values
 SDBU_BACKUP_FOLDER_DST=${SDBU_BACKUP_FOLDER_DST:="BackupFiles"}
@@ -566,15 +572,12 @@ do_echo "Launched from tty: [$(tty)]"
 do_echo "Current configuration file: [${SBDU_CONFIG_FILE}]"
 do_echo "Current Log file: [${SDBU_LOGFILE}]"
 do_echo "Current Pid file: [${SDBU_PIDFILE}]"
-#[DEBUG] read -p "[${LINENO}].Enter to continue" VTRASH; exit -1; kill $$
 
 # .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
 # MAIN THREAD
 # .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
 #
 # Start database backup
-#sdbu_BACKUP_FILE_NAME=${SDBU_BACKUP_FOLDER_DST}/${SDBU_BACKUP_FILE_NAME}
-#do_echo "DEBUG: SDBU_BACKUP_FOLDER_DST: [${SDBU_BACKUP_FOLDER_DST}}"
 sdbu_BACKUP_FILE_NAME=${SDBU_BACKUP_FOLDER_DST}/${SDBU_BACKUP_FILE_NAME}
 do_echo "Invoking database backup"
 do_db_backup ${sdbu_BACKUP_FILE_NAME}
