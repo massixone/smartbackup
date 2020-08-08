@@ -275,15 +275,15 @@ function do_db_backup () {
             do_echo "${FUNCNAME}() Launching PostgreSQL backup via command: 'pg_dump'..."
             echo ${SDBU_DB_PASS} | \
             do_echo "DB Dump as: pg_dump -h ${SDBU_DB_HOST} -U ${SDBU_BD_USER} -p ${SDBU_DB_PORT} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}"
-            pg_dump -h ${SDBU_DB_HOST} -U ${SDBU_BD_USER} -p ${SDBU_DB_PORT} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
+            /usr/bin/pg_dump -h ${SDBU_DB_HOST} -U ${SDBU_BD_USER} -p ${SDBU_DB_PORT} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
             ;;
         'mysql')
             do_echo "${FUNCNAME}() Launching MySQL backup via command: 'mysqldump'..."
-            mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_TYPE} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
+            /usr/bin/mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_TYPE} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
             ;;
         'mariadb')
             do_echo "${FUNCNAME}() Launching MariaDB backup via command: 'mysqldump'..."
-            mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_TYPE} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
+            /usr/bin/mysqldump -h ${SDBU_DB_HOST} -u ${SDBU_BD_USER} -P ${SDBU_DB_PORT} -p${SDBU_DB_TYPE} ${SDBU_DB_NAME} > ${TMP_FILE_BCK} 2> ${TMP_FILE_LOG}
             ;;
     esac
     RC=$?
