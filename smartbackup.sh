@@ -32,7 +32,7 @@
 #   P R E A M B L E
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-declare SDBU_VERSION="1.0.3"
+declare SDBU_APP_VERSION="1.0.3"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   C O N F I G
@@ -114,7 +114,8 @@ function do_create_pid_file () {
 # @ No arguments
 function do_usage () {
     
-    echo -en "\n***** $(basename $0) usage:.\n
+    echo -en "\n***** $(basename $0)  - Version:  ${SDBU_APP_VERSION}
+        usage:.\n
         -h | --help         show this message
         -c config_name      Use the specified configuration file       
         -i                  Interactive. Show log messages while running
@@ -427,6 +428,9 @@ function do_check_fpt_log () {
     return ${RC}    #exit ${RC}
 }
 
+function show_version () {
+    do_echo "${APP_NAME} - Version:  ${SDBU_APP_VERSION}"
+}
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   M A I N
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -465,6 +469,10 @@ while [ $# -gt 0 ];do
             ;;
         '-q')
             sdbu_INTERACTIVE=0
+            ;;
+        '-V')
+            show_version
+            exit 0
             ;;
         *)
             echo -en "\nError!. Invalid argument\n\n"
@@ -535,7 +543,7 @@ else
 fi
 
 #
-# Rotate the log file [sceduled for nuewer versions]
+# Rotate the log file [sceduled for nuwer versions]
 #rotate_file ${SDBU_LOGFILE} ${SDBU_ROTATE_LOGS}
 #do_echo "log file rotation completed. Kept ${SDBU_ROTATE_LOGS} older copies."
 
