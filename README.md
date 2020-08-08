@@ -72,11 +72,15 @@ In order to be executed as any use (other rhan 'root'), there are some issues yo
  1. Move to the folder where the package is located
  2. Execute smartbackup.sh and examine the log to verify whether output is as expected.
 
-The tool invocation can be put under the control of system **cron** by adding the a line simila to the one that  follows as exaple.
+The tool invocation can be put under the control of system **cron** by adding the a line similar to the one that  follows as example.
 
 ```
-0 3 * * * /usr/local/smartbackup/smartbackup.sh -c TEST > /dev/null 2>&1
+0 3 * * * /bin/bash /usr/local/smartbackup/smartbackup.sh -c TEST > /dev/null 2>&1
 ```
+
+Please note that the `cron` command line is preceded by `/bin/bash`. This is necessary since `cron` tries to execute the command using `sh` and not all systems uses the same mechanism. This workaround forces Smartbackup to be executed with **bash** without the need to set environment variable `SHELL` in the crontab file, which may be in contrast with other crontab lines.
+
+For more information please see CRONTAB(5) man pages.
 
 ## Authentication
 You must consider that, in case the database backup file has to be transferred over a remote host for storage, an authentication may be needed on the remote host, to store the file.
