@@ -462,17 +462,17 @@ while [ $# -gt 0 ];do
             do_usage
             kill $$     #do_exit 0
             ;;
-        '-c')
+        '-c'|'--config')
             shift 1
             sdbu_CONFIG_FILE="_"$1
             ;;
-        '-i')
+        '-i'|'--interactive')
             sdbu_INTERACTIVE=1
             ;;
-        '-q')
+        '-q'|'--quiet')
             sdbu_INTERACTIVE=0
             ;;
-        '-V')
+        '-V'|'--version')
             show_version
             exit 0
             ;;
